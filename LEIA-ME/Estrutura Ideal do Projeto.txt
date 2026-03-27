@@ -1,0 +1,28 @@
+📦 Estrutura Ideal do Projeto
+
+quiz-system/
+│
+├── docker-compose.yml
+│
+├── backend/
+│   ├── src/
+│   │   ├── domain/
+│   │   ├── application/
+│   │   ├── infrastructure/
+│   │   ├── interfaces/
+│   │   └── main.ts
+│   │
+│   ├── prisma/
+│   │   └── schema.prisma
+│   │
+│   ├── Dockerfile
+│   └── package.json
+│
+├── frontend/
+│   ├── src/
+│   │   ├── pages/
+│   │   ├── services/
+│   │   └── components/
+│   │
+│   ├── Dockerfile
+│   └── package.json

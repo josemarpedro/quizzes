@@ -1,0 +1,58 @@
+
+#services:
+#  postgres:
+#    image: postgres:15
+#    container_name: postgres_db
+#    restart: always
+#    environment:
+#      POSTGRES_USER: quiz
+#      POSTGRES_PASSWORD: quiz
+#      POSTGRES_DB: quizdb
+#    ports:
+#      - "5433:5432"
+#    volumes:
+#      - postgres_data:/var/lib/postgresql/data
+#
+#volumes:
+#  postgres_data:
+
+services:
+  postgres:
+    image: postgres:15
+    restart: always
+    environment:
+      POSTGRES_USER: quiz
+      POSTGRES_PASSWORD: quiz
+      POSTGRES_DB: quizdb
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  backend:
+    build:
+      context: ./backend
+    environment:
+      DATABASE_URL: postgres://quiz:quiz@postgres:5432/quizdb
+      PORT: 3000
+    depends_on:
+      - postgres
+    ports:
+      - "3000:3000"
+    command: >
+      sh -c "
+      npx prisma migrate deploy &&
+      npx prisma db seed &&
+      node dist/main.js
+      "
+
+  frontend:
+    build:
+      context: ./frontend
+    depends_on:
+      - backend
+    ports:
+      - "5173:5173"
+
+volumes:
+  postgres_data:

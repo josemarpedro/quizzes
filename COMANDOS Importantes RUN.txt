@@ -1,0 +1,26 @@
+Se não tens ts-node instalado:
+npm install ts-node typescript --save-dev
+
+Faça rebuild:
+docker compose down
+docker compose build --no-cache
+docker compose up
+
+npx prisma db seed
+npm run prisma:seed
+
+
+O erro aconteceu porque o comando foi executado no Windows, não dentro do container:
+npx prisma db seed
+
+
+Primeiro sobe os containers:
+docker compose up -d
+docker ps
+
+Depois execute o seed dentro do container do backend:
+docker compose exec backend npx prisma db seed
+ou
+docker exec -it quiz-system-backend npx prisma db seed
+
+Assim o Prisma verá:postgres:5432

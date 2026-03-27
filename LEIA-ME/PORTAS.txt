@@ -1,0 +1,22 @@
+SERVIÇO PORTA:
+5173 - Frontend
+3000 - Backend
+5432 - Banco
+5555 - Prisma Studio
+
+
+RESUMO ARQUITETURA:
+Browser (User)
+   ↓
+5173 → Frontend (Vite / React)
+
+Frontend
+   ↓ API Calls
+3000 → Backend (NestJS)
+
+Backend
+   ↓
+5432 → Database (PostgreSQL)
+
+Prisma Studio (Opcional)
+5555 → Visualizar banco

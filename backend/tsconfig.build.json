@@ -1,0 +1,20 @@
+
+//{
+//  "extends": "./tsconfig.json",
+//  "exclude": ["node_modules", "test", "dist", "**/*spec.ts"]
+//}
+
+
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./dist",
+  //  "rootDir": "./src", //remover a subpasta "src" da compilação
+  },
+  "exclude": [
+    "node_modules",
+    "dist",
+  //  "prisma",      // <- adiciona esta linha
+    "**/*.spec.ts"
+  ]
+}

@@ -1,0 +1,118 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id          String   @id @default(uuid())
+  name        String
+  experience  Int      @default(0)
+  answers     Answer[]
+  createdAt   DateTime @default(now())
+}
+
+model Quiz {
+  id               String   @id @default(uuid())
+  countryName      String   @unique
+  correctContinent String
+  createdAt        DateTime @default(now())
+  answers          Answer[]
+}
+
+model Answer {
+  id          String   @id @default(uuid())
+  userId      String
+  quizId      String
+  userAnswer  String
+  isCorrect   Boolean
+  xpDelta     Int
+  createdAt   DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id])
+  quiz Quiz @relation(fields: [quizId], references: [id])
+}
+
+import { PrismaClient } from '@prisma/client'; // Importa o cliente Prisma para comunicação com a base de dados PostgreSQL
+
+const prisma = new PrismaClient(); // Cria uma instância do PrismaClient para executar operações no banco
+
+async function main() { // Função principal responsável por inserir ou atualizar os quizzes no banco
+  const quizzes = [
+    { countryName: 'Japão', correctContinent: 'Ásia' },
+    { countryName: 'Brasil', correctContinent: 'América do Sul' },
+    { countryName: 'Alemanha', correctContinent: 'Europa' },
+    { countryName: 'Egito', correctContinent: 'África' },
+    { countryName: 'Austrália', correctContinent: 'Oceania' },
+    { countryName: 'México', correctContinent: 'América do Norte' },
+    { countryName: 'Argentina', correctContinent: 'América do Sul' },
+    { countryName: 'Chile', correctContinent: 'América do Sul' },
+    { countryName: 'Peru', correctContinent: 'América do Sul' },
+    { countryName: 'Colômbia', correctContinent: 'América do Sul' },
+    { countryName: 'França', correctContinent: 'Europa' },
+    { countryName: 'Itália', correctContinent: 'Europa' },
+    { countryName: 'Espanha', correctContinent: 'Europa' },
+    { countryName: 'Portugal', correctContinent: 'Europa' },
+    { countryName: 'Reino Unido', correctContinent: 'Europa' },
+    { countryName: 'Holanda', correctContinent: 'Europa' },
+    { countryName: 'Suíça', correctContinent: 'Europa' },
+    { countryName: 'Suécia', correctContinent: 'Europa' },
+    { countryName: 'Noruega', correctContinent: 'Europa' },
+    { countryName: 'Finlândia', correctContinent: 'Europa' },
+    { countryName: 'China', correctContinent: 'Ásia' },
+    { countryName: 'Coreia do Sul', correctContinent: 'Ásia' },
+    { countryName: 'Coreia do Norte', correctContinent: 'Ásia' },
+    { countryName: 'Índia', correctContinent: 'Ásia' },
+    { countryName: 'Tailândia', correctContinent: 'Ásia' },
+    { countryName: 'Vietnã', correctContinent: 'Ásia' },
+    { countryName: 'Indonésia', correctContinent: 'Ásia' },
+    { countryName: 'Filipinas', correctContinent: 'Ásia' },
+    { countryName: 'Arábia Saudita', correctContinent: 'Ásia' },
+    { countryName: 'Turquia', correctContinent: 'Ásia' },
+    { countryName: 'África do Sul', correctContinent: 'África' },
+    { countryName: 'Nigéria', correctContinent: 'África' },
+    { countryName: 'Angola', correctContinent: 'África' },
+    { countryName: 'Quênia', correctContinent: 'África' },
+    { countryName: 'Marrocos', correctContinent: 'África' },
+    { countryName: 'Etiópia', correctContinent: 'África' },
+    { countryName: 'Tanzânia', correctContinent: 'África' },
+    { countryName: 'Nova Zelândia', correctContinent: 'Oceania' },
+    { countryName: 'Fiji', correctContinent: 'Oceania' },
+    { countryName: 'Papua-Nova Guiné', correctContinent: 'Oceania' },
+  ]; // Lista de países e seus continentes usados para popular a base de dados
+
+    for (const quiz of quizzes) { // Percorre todos os quizzes da lista
+
+    await prisma.quiz.upsert({ // Upsert: se o registo existir ele atualiza, se não existir ele cria
+      where: {
+        countryName: quiz.countryName // Condição usada para verificar se o país já existe na base de dados
+      },
+      update: {
+        correctContinent: quiz.correctContinent // Caso exista, atualiza o continente correto
+      },
+      create: {
+        countryName: quiz.countryName, // Caso não exista, cria um novo registo com o país
+        correctContinent: quiz.correctContinent // Define o continente correto do país
+      }
+    })
+  }
+  
+}
+
+
+main() // Executa a função principal
+  .catch((e) => { // Captura erros que ocorram durante a execução
+    console.error(e); // Mostra o erro no console
+    process.exit(1); // Encerra o processo com código de erro
+  })
+  .finally(async () => { // Executa sempre no final, independentemente de sucesso ou erro
+    await prisma.$disconnect(); // Fecha a conexão com a base de dados
+  });

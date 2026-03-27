@@ -1,0 +1,63 @@
+🎯 1️⃣ Modelo de Dados — Prisma (Banco PostgreSQL)
+📌 Objetivo
+
+Precisamos destas tabelas:
+
+User
+
+Quiz
+
+Question
+
+Option (respostas)
+
+Attempt (tentativa do jogador)
+
+🔥 backend/prisma/schema.prisma
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id          String  @id @default(uuid())
+  name        String
+  experience  Int     @default(0)
+  attempts    Attempt[]
+  createdAt   DateTime @default(now())
+}
+
+model Quiz {
+  id          String     @id @default(uuid())
+  title       String
+  questions   Question[]
+  createdAt   DateTime @default(now())
+}
+
+model Question {
+  id        String   @id @default(uuid())
+  text      String
+  quizId    String
+  quiz      Quiz     @relation(fields: [quizId], references: [id])
+  options   Option[]
+}
+
+model Option {
+  id          String   @id @default(uuid())
+  text        String
+  isCorrect   Boolean
+  questionId  String
+  question    Question @relation(fields: [questionId], references: [id])
+}
+
+model Attempt {
+  id        String  @id @default(uuid())
+  userId    String
+  quizId    String
+  score     Int
+  user      User    @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())

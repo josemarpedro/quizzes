@@ -1,0 +1,7 @@
+NOTAS:
+Ficheiro "docker-compose.yml" movidos da pasta "backend" para a pasta raiz.
+
+Comando:
+npx prisma migrate dev --name init
+
+*Deve ser executado com o terminal dentro da pasta "backend".

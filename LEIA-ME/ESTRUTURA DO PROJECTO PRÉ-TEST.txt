@@ -1,0 +1,45 @@
+Projeto completo (de forma simplificada) chamado "Quiz System" usando:
+
+Backend:
+- NestJS
+- TypeScript
+- Prisma ORM
+- PostgreSQL
+- Clean Architecture
+
+Frontend:
+- React + TypeScript
+- Vite
+- Comunicação com API REST
+
+Infraestrutura:
+- Docker
+- Docker Compose
+
+Requisitos funcionais:
+1. Sistema de Quizz sobre países e continentes (Os Quizzes deverão ser sobre qual continente pertence tal pais. Ex.: em qual continente fica o Japão? R: Asia).
+2. Página de lista de quizzes.
+3. Página para jogar quiz.
+4. Sistema de XP:
+   - +50 pontos por acerto
+   - -15 pontos por erro
+   - Pode ficar negativo
+5. Salvar histórico de respostas.
+6. Usar banco PostgreSQL.
+7. Usar Prisma como ORM.
+8. Criar arquitetura organizada com:
+   - Domain
+   - Application
+   - Infrastructure
+   - Presentation
+9. Criar endpoints REST:
+   - GET /quizzes
+   - POST /quizzes/:id/answer
+   - GET /users/:id
+10. Criar Dockerfile para backend e frontend.
+11. Criar docker-compose com PostgreSQL, backend e frontend.
+12. Criar seed automático com pelo menos 5 quizzes sobre países e continentes.
+
+Organiza o código profissionalmente.
+Evita código redundante.
+Segue Clean Code.

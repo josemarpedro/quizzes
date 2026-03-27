@@ -1,0 +1,15 @@
+ESTE - Arquivos com pontos principais para resolução de problemas ou que levou mais tempo para concertar os Bugs.
+
+ESTE C - Arquivos chaves para rodar o sistema, e que estão totalmente comentados.
+
+OUTROS - Outros arquivos que foi necessário reprogramar para o funcionamento do jogo.
+
+
+
+5 pontos rápidos:
+
+Docker compose up inicia tudo sem erro
+http://localhost:3000/quizzes retorna perguntas
+Frontend em http://localhost:5173 consegue buscar a API
+Responder pergunta altera XP (+50 / -15)
+Usuário pode ficar com XP negativo
